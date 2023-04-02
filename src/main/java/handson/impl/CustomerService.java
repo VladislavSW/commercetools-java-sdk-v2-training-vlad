@@ -30,6 +30,15 @@ public class CustomerService {
                 .execute();
     }
 
+    public CompletableFuture<ApiHttpResponse<Customer>> getCustomerById(final String customerId) {
+
+        return apiRoot
+                .customers()
+                .withId(customerId)
+                .get()
+                .execute();
+    }
+
     public CompletableFuture<ApiHttpResponse<CustomerSignInResult>> createCustomer(
             final String email,
             final String password,
@@ -117,21 +126,24 @@ public class CustomerService {
         final Customer customer = customerApiHttpResponse.getBody();
         final CustomerGroup customerGroup = customerGroupApiHttpResponse.getBody();
 
-        return
-                apiRoot
-                        .customers()
-                        .withKey(customer.getKey())
-                        .post(CustomerUpdateBuilder.of()
+        return apiRoot
+                .customers()
+                .withKey(customer.getKey())
+                .post(
+                        CustomerUpdateBuilder.of()
                                 .version(customer.getVersion())
                                 .actions(
-                                    CustomerSetCustomerGroupActionBuilder.of()
-                                        .customerGroup(CustomerGroupResourceIdentifierBuilder.of()
-                                                .key(customerGroup.getKey())
-                                                .build())
-                                        .build()
+                                        CustomerSetCustomerGroupActionBuilder.of()
+                                                .customerGroup(
+                                                        CustomerGroupResourceIdentifierBuilder.of()
+                                                                .key(customerGroup.getKey())
+                                                                .build()
+                                                )
+                                                .build()
                                 )
-                                .build())
-                        .execute();
+                                .build()
+                )
+                .execute();
     }
 
 }
