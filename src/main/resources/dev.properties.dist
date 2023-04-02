@@ -15,8 +15,13 @@ dev-import-admin.authUrl=
 dev-import-admin.apiUrl=
 dev-import-admin.scopes=
 
-## dev-test-admin
-##
+## dev-project-sync-admin
+dev-project-sync-admin.projectKey=
+dev-project-sync-admin.clientId=
+dev-project-sync-admin.clientSecret=
+dev-project-sync-admin.authUrl=
+dev-project-sync-admin.apiUrl=
+dev-project-sync-admin.scopes=
 
 ## dev-berlin-store-admin
 ##
