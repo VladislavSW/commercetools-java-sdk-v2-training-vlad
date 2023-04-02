@@ -8,7 +8,12 @@ dev-admin.scopes=
 
 
 ## dev-import-admin
-##
+dev-import-admin.projectKey=
+dev-import-admin.clientId=
+dev-import-admin.clientSecret=
+dev-import-admin.authUrl=
+dev-import-admin.apiUrl=
+dev-import-admin.scopes=
 
 ## dev-test-admin
 ##

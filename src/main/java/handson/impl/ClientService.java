@@ -80,17 +80,16 @@ public class ClientService {
         String clientSecret = prop.getProperty(prefix + "clientSecret");
         String projectKey = prop.getProperty(prefix + "projectKey");
 
-        importApiRoot = ImportApiRootBuilder.of().defaultClient(
-                ClientCredentials.of()
-                        .withClientId(clientId)
-                        .withClientSecret(clientSecret)
-                        .build(),
-                com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_EUROPE_WEST1.getOAuthTokenUrl(),
-                com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_EUROPE_WEST1.getApiUrl()
-            )
+        return ImportApiRootBuilder.of()
+                .defaultClient(
+                        ClientCredentials.of()
+                                .withClientId(clientId)
+                                .withClientSecret(clientSecret)
+                                .build(),
+                        com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_AUSTRALIA_SOUTHEAST1.getOAuthTokenUrl(),
+                        com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_AUSTRALIA_SOUTHEAST1.getApiUrl()
+                )
                 .build(projectKey);
-
-        return importApiRoot;
     }
 
 
