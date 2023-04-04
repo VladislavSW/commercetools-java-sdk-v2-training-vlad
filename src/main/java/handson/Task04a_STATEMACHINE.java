@@ -2,6 +2,7 @@ package handson;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.state.State;
+import com.commercetools.api.models.state.StateResourceIdentifier;
 import com.commercetools.api.models.state.StateResourceIdentifierBuilder;
 import com.commercetools.api.models.state.StateTypeEnum;
 import handson.impl.ApiPrefixHelper;
@@ -11,9 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static handson.impl.ClientService.createApiClient;
 
@@ -30,35 +30,27 @@ public class Task04a_STATEMACHINE {
 
         // TODO
         // Use StateMachineService.java to create your designed order state machine
-        //
+        // In cse the state key already exists either rename it either delete state transitions and states
         State orderPackedState =
-                stateMachineService.createState("mhOrderPacked", StateTypeEnum.ORDER_STATE, true, "MH Order Packed")
-                        .toCompletableFuture().get()
+                stateMachineService.createState("OrderPacked", StateTypeEnum.ORDER_STATE, true, "Order Packed")
+                        .get()
                         .getBody();
         State orderShippedState =
-                stateMachineService.createState("mhOrderShipped", StateTypeEnum.ORDER_STATE, false, "MH Order Shipped")
-                        .toCompletableFuture().get()
+                stateMachineService.createState("OrderShipped", StateTypeEnum.ORDER_STATE, false, "Order Shipped")
+                        .get()
                         .getBody();
 
-        logger.info("State info {}",
-                stateMachineService.setStateTransitions(
-                        orderPackedState,
-                        Stream.of(
-                                StateResourceIdentifierBuilder.of().
-                                        id(orderShippedState.getId())
-                                        .build()
-                        )
-                                .collect(Collectors.toList())
-                )
-                        .toCompletableFuture().get()
+        // Add transition
+        List<StateResourceIdentifier> states  = new ArrayList<>();
+        states.add(
+                StateResourceIdentifierBuilder.of().
+                        id(orderShippedState.getId())
+                        .build()
         );
-
         logger.info("State info {}",
-                stateMachineService.setStateTransitions(
-                                orderShippedState,
-                                new ArrayList<>()
-                        )
-                        .toCompletableFuture().get()
+                stateMachineService
+                        .setStateTransitions(orderPackedState, states)
+                        .get()
         );
 
         client.close();

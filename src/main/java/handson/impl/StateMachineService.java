@@ -19,7 +19,12 @@ public class StateMachineService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<State>> createState(final String key, StateTypeEnum stateTypeEnum, final Boolean initial, final String name) {
+    public CompletableFuture<ApiHttpResponse<State>> createState(
+            final String key,
+            StateTypeEnum stateTypeEnum,
+            final Boolean initial,
+            final String name
+    ) {
 
         Map<String, String> myNames = new HashMap<String, String>() {
             {
@@ -27,41 +32,51 @@ public class StateMachineService {
                 put("EN", name);
             }
         };
-        return
-                apiRoot
-                        .states()
-                        .post(
-                                StateDraftBuilder.of()
-                                        .key(key)
-                                        .type(stateTypeEnum)
-                                        .initial(initial)
-                                        .name(
-                                                LocalizedStringBuilder.of()
-                                                        .values(myNames)
-                                                        .build())
-                                        .build()
-                        )
-                        .execute();
+        return apiRoot
+                .states()
+                .post(
+                        StateDraftBuilder.of()
+                                .key(key)
+                                .type(stateTypeEnum)
+                                .initial(initial)
+                                .name(
+                                        LocalizedStringBuilder.of()
+                                                .values(myNames)
+                                                .build())
+                                .build()
+                )
+                .execute();
 
     }
 
-    public CompletableFuture<ApiHttpResponse<State>> setStateTransitions(final State stateToBeUpdated, final List<StateResourceIdentifier> states) {
+    public CompletableFuture<ApiHttpResponse<State>> setStateTransitions(
+            final State stateToBeUpdated,
+            final List<StateResourceIdentifier> states
+    ) {
 
-        return
-                apiRoot
-                        .states()
-                        .withId(stateToBeUpdated.getId())
-                        .post(
-                                StateUpdateBuilder.of()
-                                    .actions(
-                                        StateSetTransitionsActionBuilder.of()
-                                            .transitions(states)
-                                            .build()
-                                    )
-                                    .version(stateToBeUpdated.getVersion())
+        return apiRoot
+                .states()
+                .withId(stateToBeUpdated.getId())
+                .post(
+                        StateUpdateBuilder.of()
+                            .actions(
+                                StateSetTransitionsActionBuilder.of()
+                                    .transitions(states)
                                     .build()
-                        )
-                        .execute();
+                            )
+                            .version(stateToBeUpdated.getVersion())
+                            .build()
+                )
+                .execute();
+    }
+
+    public CompletableFuture<ApiHttpResponse<State>> getStateByKey(final String stateKey) {
+
+        return apiRoot
+                .states()
+                .withKey(stateKey)
+                .get()
+                .execute();
     }
 
 }
