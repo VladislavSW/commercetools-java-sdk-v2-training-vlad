@@ -24,8 +24,9 @@ public class ImportService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<ImportContainer>> createImportContainer(final String containerKey) {
-
+    public CompletableFuture<ApiHttpResponse<ImportContainer>> createImportContainer(
+            final String containerKey
+    ) {
         return apiRoot
                 .importContainers()
                 .post(
@@ -37,9 +38,9 @@ public class ImportService {
                 .execute();
     }
 
-    public ImportContainer getImportContainer(final String containerKey)
-            throws ExecutionException, InterruptedException {
-
+    public ImportContainer getImportContainer(
+            final String containerKey
+    ) throws ExecutionException, InterruptedException {
         return apiRoot
                 .importContainers()
                 .withImportContainerKeyValue(containerKey)
@@ -54,8 +55,8 @@ public class ImportService {
             final String containerKey,
             final String productVariantKey,
             final String attributeKey,
-            final Money amount) {
-
+            final Money amount
+    ) {
         ProductVariantPatch productVariantPatch = ProductVariantPatchBuilder.of()
                 .productVariant(p -> p.key(productVariantKey))
                 .attributes(a -> a.addValue(
@@ -83,8 +84,8 @@ public class ImportService {
             final String productKey,
             final String productVariantKey,
             final String priceKey,
-            final Money amount) {
-
+            final Money amount
+    ) {
         return apiRoot
                 .prices()
                 .importContainers()

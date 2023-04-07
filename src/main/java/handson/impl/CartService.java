@@ -4,11 +4,9 @@ import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.cart.*;
 import com.commercetools.api.models.channel.Channel;
 import com.commercetools.api.models.common.BaseAddress;
-import com.commercetools.api.models.common.UpdateActionBuilder;
 import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.payment.Payment;
 import com.commercetools.api.models.payment.PaymentResourceIdentifierBuilder;
-import com.commercetools.api.models.shipping_method.ShippingMethod;
 import com.commercetools.api.models.shipping_method.ShippingMethodResourceIdentifierBuilder;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 
@@ -75,7 +73,6 @@ public class CartService {
             final ApiHttpResponse<Customer> customerApiHttpResponse,
             InventoryMode inventoryMode
     ) {
-
         Customer customer = customerApiHttpResponse.getBody();
 
         return apiRoot
@@ -93,7 +90,6 @@ public class CartService {
 
 
     public CompletableFuture<ApiHttpResponse<Cart>> createAnonymousCart() {
-
         return apiRoot
                 .carts()
                 .post(
@@ -124,8 +120,8 @@ public class CartService {
     public CompletableFuture<ApiHttpResponse<Cart>> addProductToCartBySkusAndChannel(
             final ApiHttpResponse<Cart> cartApiHttpResponse,
             final Channel channel,
-            final String ... skus) {
-
+            final String ... skus
+    ) {
         Cart cart = cartApiHttpResponse.getBody();
         List<CartUpdateAction> cartUpdateActions = new ArrayList<>();
 
@@ -151,8 +147,9 @@ public class CartService {
     }
 
     public CompletableFuture<ApiHttpResponse<Cart>> addDiscountToCart(
-            final ApiHttpResponse<Cart> cartApiHttpResponse, final String code) {
-
+            final ApiHttpResponse<Cart> cartApiHttpResponse,
+            final String code
+    ) {
         Cart cart = cartApiHttpResponse.getBody();
 
         return apiRoot
@@ -171,8 +168,9 @@ public class CartService {
                 .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<Cart>> recalculate(final ApiHttpResponse<Cart> cartApiHttpResponse) {
-
+    public CompletableFuture<ApiHttpResponse<Cart>> recalculate(
+            final ApiHttpResponse<Cart> cartApiHttpResponse
+    ) {
         Cart cart = cartApiHttpResponse.getBody();
 
         return apiRoot
@@ -195,7 +193,6 @@ public class CartService {
             final ApiHttpResponse<Cart> cartApiHttpResponse,
             final BaseAddress address
     ) {
-
         Cart cart = cartApiHttpResponse.getBody();
 
         return apiRoot
@@ -218,7 +215,6 @@ public class CartService {
             final ApiHttpResponse<Cart> cartApiHttpResponse,
             final BaseAddress address
     ) {
-
         Cart cart = cartApiHttpResponse.getBody();
 
         return apiRoot
@@ -262,7 +258,6 @@ public class CartService {
                 )
                 .execute();
     }
-
 
     public CompletableFuture<ApiHttpResponse<Cart>> addPayment(
             ApiHttpResponse<Cart> cartApiHttpResponse,

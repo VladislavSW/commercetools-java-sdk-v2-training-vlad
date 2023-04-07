@@ -22,7 +22,9 @@ public class ClientService {
     /**
      * @throws IOException exception
      */
-    public static ProjectApiRoot createApiClient(final String prefix) throws IOException {
+    public static ProjectApiRoot createApiClient(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
         String clientId = prop.getProperty(prefix + "clientId");
@@ -40,40 +42,49 @@ public class ClientService {
                 .build(projectKey);
     }
 
-    public static String getProjectKey(final String prefix) throws IOException {
+    public static String getProjectKey(
+            final String prefix
+    ) throws IOException {
         return null;
     }
 
-    public static String getClientId(final String prefix) throws IOException {
+    public static String getClientId(
+            final String prefix
+    ) throws IOException {
         return null;
     }
 
-    public static String getClientSecret(final String prefix) throws IOException {
+    public static String getClientSecret(
+            final String prefix
+    ) throws IOException {
         return null;
     }
 
-    public static String getStoreKey(final String prefix) throws IOException {
+    public static String getStoreKey(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
 
         return prop.getProperty(prefix + "storeKey");
     }
 
-    public static String getCustomerEmail(final String prefix) throws IOException {
-
+    public static String getCustomerEmail(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
 
         return prop.getProperty(prefix + "customerEmail");
     }
 
-
     /**
      * @return apiRoot
      * @throws IOException exception
      */
-    public static com.commercetools.importapi.client.ProjectApiRoot createImportApiClient(final String prefix) throws IOException {
-
+    public static com.commercetools.importapi.client.ProjectApiRoot createImportApiClient(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
         String clientId = prop.getProperty(prefix + "clientId");
@@ -92,9 +103,9 @@ public class ClientService {
                 .build(projectKey);
     }
 
-
-    public static ProjectApiRoot createMeTokenApiClient(final String prefix) throws IOException {
-
+    public static ProjectApiRoot createMeTokenApiClient(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
         String projectKey = prop.getProperty(prefix + "projectKey");
@@ -118,8 +129,9 @@ public class ClientService {
                 .buildProjectRoot(projectKey);
     }
 
-    public static ProjectApiRoot createStoreMeApiClient(final String prefix) throws IOException {
-
+    public static ProjectApiRoot createStoreMeApiClient(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
         String projectKey = prop.getProperty(prefix + "projectKey");
@@ -142,9 +154,9 @@ public class ClientService {
                 .build(projectKey);
     }
 
-
-    public static AuthenticationToken getTokenForClientCredentialsFlow(final String prefix) throws IOException {
-
+    public static AuthenticationToken getTokenForClientCredentialsFlow(
+            final String prefix
+    ) throws IOException {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
         String clientId = prop.getProperty(prefix + "clientId");

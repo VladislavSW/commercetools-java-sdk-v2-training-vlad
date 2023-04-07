@@ -22,7 +22,9 @@ public class ShippingMethodService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<ShippingMethod>> getShippingMethodById(final String id) {
+    public CompletableFuture<ApiHttpResponse<ShippingMethod>> getShippingMethodById(
+            final String id
+    ) {
         return apiRoot
                 .shippingMethods()
                 .withId(id)
@@ -33,7 +35,6 @@ public class ShippingMethodService {
     public CompletableFuture<ApiHttpResponse<ShippingMethodPagedQueryResponse>> getShippingMethodsForCart(
             final ApiHttpResponse<Cart> cartApiHttpResponse
     ) {
-
         Cart cart = cartApiHttpResponse.getBody();
 
         return apiRoot
@@ -43,5 +44,4 @@ public class ShippingMethodService {
                 .withCartId(cart.getId())
                 .execute();
     }
-
 }

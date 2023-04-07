@@ -19,9 +19,9 @@ public class DiscountCodeService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<DiscountCode>> getDiscountCodeById(final String id)
-    {
-
+    public CompletableFuture<ApiHttpResponse<DiscountCode>> getDiscountCodeById(
+            final String id
+    ) {
         return apiRoot
                 .discountCodes()
                 .withId(id)
@@ -29,8 +29,9 @@ public class DiscountCodeService {
                 .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<DiscountCodePagedQueryResponse>> getDiscountCodeByCode(final String code) {
-
+    public CompletableFuture<ApiHttpResponse<DiscountCodePagedQueryResponse>> getDiscountCodeByCode(
+            final String code
+    ) {
         return apiRoot
                 .discountCodes()
                 .get()
@@ -38,5 +39,4 @@ public class DiscountCodeService {
                 .withPredicateVar("discountCode", code)
                 .execute();
     }
-
 }

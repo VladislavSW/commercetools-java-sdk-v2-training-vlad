@@ -25,13 +25,13 @@ public class StateMachineService {
             final Boolean initial,
             final String name
     ) {
-
         Map<String, String> myNames = new HashMap<String, String>() {
             {
                 put("DE", name);
                 put("EN", name);
             }
         };
+
         return apiRoot
                 .states()
                 .post(
@@ -53,7 +53,6 @@ public class StateMachineService {
             final State stateToBeUpdated,
             final List<StateResourceIdentifier> states
     ) {
-
         return apiRoot
                 .states()
                 .withId(stateToBeUpdated.getId())
@@ -70,8 +69,9 @@ public class StateMachineService {
                 .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<State>> getStateByKey(final String stateKey) {
-
+    public CompletableFuture<ApiHttpResponse<State>> getStateByKey(
+            final String stateKey
+    ) {
         return apiRoot
                 .states()
                 .withKey(stateKey)

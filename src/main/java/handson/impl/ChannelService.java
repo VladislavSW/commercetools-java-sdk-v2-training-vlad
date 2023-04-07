@@ -18,8 +18,9 @@ public class ChannelService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<Channel>> getChannelById(final String channelId) {
-
+    public CompletableFuture<ApiHttpResponse<Channel>> getChannelById(
+            final String channelId
+    ) {
         return apiRoot
                 .channels()
                 .withId(channelId)

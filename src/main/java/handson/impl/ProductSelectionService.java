@@ -30,7 +30,9 @@ public class ProductSelectionService {
      *
      * @return the product selection completion stage
      */
-    public CompletableFuture<ApiHttpResponse<ProductSelection>> getProductSelectionByKey(final String productSelectionKey) {
+    public CompletableFuture<ApiHttpResponse<ProductSelection>> getProductSelectionByKey(
+            final String productSelectionKey
+    ) {
         return
                 apiRoot
                         .productSelections()
@@ -44,7 +46,9 @@ public class ProductSelectionService {
      *
      * @return the store completion stage
      */
-    public CompletableFuture<ApiHttpResponse<Store>> getStoreByKey(final String storeKey) {
+    public CompletableFuture<ApiHttpResponse<Store>> getStoreByKey(
+            final String storeKey
+    ) {
         return
                 apiRoot
                         .stores()
@@ -58,38 +62,40 @@ public class ProductSelectionService {
      *
      * @return the product selection creation completion stage
      */
-    public CompletableFuture<ApiHttpResponse<ProductSelection>> createProductSelection(final String productSelectionKey, final String name) {
+    public CompletableFuture<ApiHttpResponse<ProductSelection>> createProductSelection(
+            final String productSelectionKey,
+            final String name
+    ) {
         return
                 null;
     }
 
-
     public CompletableFuture<ApiHttpResponse<ProductSelection>> addProductToProductSelection(
             final ApiHttpResponse<ProductSelection> productSelectionApiHttpResponse,
-            final String productKey) {
-
+            final String productKey
+    ) {
         return
                 null;
     }
 
     public CompletableFuture<ApiHttpResponse<Store>> addProductSelectionToStore(
             final ApiHttpResponse<Store> storeApiHttpResponse,
-            final ApiHttpResponse<ProductSelection> productSelectionApiHttpResponse) {
-
+            final ApiHttpResponse<ProductSelection> productSelectionApiHttpResponse
+    ) {
         return
                 null;
     }
 
     public CompletableFuture<ApiHttpResponse<ProductSelectionProductPagedQueryResponse>> getProductsInProductSelection(
-            final String productSelectionKey) {
-
+            final String productSelectionKey
+    ) {
         return
                 null;
     }
 
     public CompletableFuture<ApiHttpResponse<ProductsInStorePagedQueryResponse>> getProductsInStore(
-            final String storeKey) {
-
+            final String storeKey
+    ) {
         return
                 null;
     }

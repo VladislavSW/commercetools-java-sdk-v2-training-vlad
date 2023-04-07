@@ -21,8 +21,9 @@ public class CustomerService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<Customer>> getCustomerByKey(final String customerKey) {
-
+    public CompletableFuture<ApiHttpResponse<Customer>> getCustomerByKey(
+            final String customerKey
+    ) {
         return apiRoot
                 .customers()
                 .withKey(customerKey)
@@ -30,8 +31,9 @@ public class CustomerService {
                 .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<Customer>> getCustomerById(final String customerId) {
-
+    public CompletableFuture<ApiHttpResponse<Customer>> getCustomerById(
+            final String customerId
+    ) {
         return apiRoot
                 .customers()
                 .withId(customerId)
@@ -45,8 +47,8 @@ public class CustomerService {
             final String customerKey,
             final String firstName,
             final String lastName,
-            final String country) {
-
+            final String country
+    ) {
         return apiRoot
                 .customers()
                 .post(
@@ -70,14 +72,15 @@ public class CustomerService {
             final ApiHttpResponse<CustomerSignInResult> customerSignInResultApiHttpResponse,
             final long timeToLiveInMinutes
     ) {
-
         final Customer customer = customerSignInResultApiHttpResponse.getBody().getCustomer();
 
         return createEmailVerificationToken(customer, timeToLiveInMinutes);
     }
 
-    public CompletableFuture<ApiHttpResponse<CustomerToken>> createEmailVerificationToken(final Customer customer, final long timeToLiveInMinutes) {
-
+    public CompletableFuture<ApiHttpResponse<CustomerToken>> createEmailVerificationToken(
+            final Customer customer,
+            final long timeToLiveInMinutes
+    ) {
         return apiRoot
                 .customers()
                 .emailToken()
@@ -91,15 +94,17 @@ public class CustomerService {
                 .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<Customer>> verifyEmail(final ApiHttpResponse<CustomerToken> customerTokenApiHttpResponse) {
-
+    public CompletableFuture<ApiHttpResponse<Customer>> verifyEmail(
+            final ApiHttpResponse<CustomerToken> customerTokenApiHttpResponse
+    ) {
         final CustomerToken customerToken = customerTokenApiHttpResponse.getBody();
 
         return verifyEmail(customerToken);
     }
 
-    public CompletableFuture<ApiHttpResponse<Customer>> verifyEmail(final CustomerToken customerToken) {
-
+    public CompletableFuture<ApiHttpResponse<Customer>> verifyEmail(
+            final CustomerToken customerToken
+    ) {
         return apiRoot
                 .customers()
                 .emailConfirm()
@@ -111,7 +116,9 @@ public class CustomerService {
                 .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<CustomerGroup>> getCustomerGroupByKey(final String customerGroupKey) {
+    public CompletableFuture<ApiHttpResponse<CustomerGroup>> getCustomerGroupByKey(
+            final String customerGroupKey
+    ) {
         return apiRoot
                 .customerGroups()
                 .withKey(customerGroupKey)
@@ -121,8 +128,8 @@ public class CustomerService {
 
     public CompletableFuture<ApiHttpResponse<Customer>> assignCustomerToCustomerGroup(
             final ApiHttpResponse<Customer> customerApiHttpResponse,
-            final ApiHttpResponse<CustomerGroup> customerGroupApiHttpResponse) {
-
+            final ApiHttpResponse<CustomerGroup> customerGroupApiHttpResponse
+    ) {
         final Customer customer = customerApiHttpResponse.getBody();
         final CustomerGroup customerGroup = customerGroupApiHttpResponse.getBody();
 
@@ -145,5 +152,4 @@ public class CustomerService {
                 )
                 .execute();
     }
-
 }
