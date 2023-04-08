@@ -71,7 +71,7 @@ public class Task04b_CHECKOUT {
         ApiHttpResponse<Cart> cartApiHttpResponse = null;
         // TODO: 2. Get/create a cart for the customer
 
-        // Exception handling via exceptionally
+            // Exception handling via exceptionally
         cartApiHttpResponse = cartService
                 .getCartByCustomerId(customerId)
                 .exceptionally(e -> {
@@ -213,6 +213,7 @@ public class Task04b_CHECKOUT {
             logger.info("Payment ID in cart = {}", cartApiHttpResponse.getBody().getPaymentInfo().getPayments().get(0).getId());
 
             // TODO: 11. Convert cart to the order
+            //  set default shipment/payment states, default order transition state, order number
             ApiHttpResponse<Order> orderApiHttpResponse = orderService.createOrderFromCart(cartApiHttpResponse).get();
             logger.info("Order created from the cart. Order id {}", orderApiHttpResponse.getBody().getId());
 
@@ -237,7 +238,7 @@ public class Task04b_CHECKOUT {
             ).get();
             logger.info("Payment transaction state: {}", paymentApiHttpResponse.getBody().getTransactions().get(0).getState().name());
 
-            // TODO: 13. Change transaction state to Success
+            // TODO: 14. Change transaction state to Success
             paymentApiHttpResponse = paymentService.setTransactionState(
                     paymentApiHttpResponse,
                     paymentTransaction,
@@ -245,7 +246,7 @@ public class Task04b_CHECKOUT {
             ).get();
             logger.info("Payment transaction state: {}", paymentApiHttpResponse.getBody().getTransactions().get(0).getState().name());
 
-            // TODO: 14. Add charge transaction
+            // TODO: 15. Add charge transaction
             paymentInteractionId = "random-interaction-id-from-psp-2";
             paymentApiHttpResponse = paymentService.addTransaction(
                     cartApiHttpResponse,

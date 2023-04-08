@@ -32,7 +32,8 @@ public class OrderService {
     public CompletableFuture<ApiHttpResponse<Order>> createOrderFromCart(
             final ApiHttpResponse<Cart> cartApiHttpResponse
     ) {
-        Cart cart = cartApiHttpResponse.getBody();
+        final Cart cart = cartApiHttpResponse.getBody();
+        final String defaultOrderTransitionState = "OrderCreated";
 
         return apiRoot
                 .orders()
@@ -58,6 +59,12 @@ public class OrderService {
                                                             .build(),
                                                     OrderChangePaymentStateActionBuilder.of()
                                                             .paymentState(PaymentState.PENDING)
+                                                            .build(),
+                                                    OrderTransitionStateActionBuilder.of()
+                                                            .state(s -> s.key(defaultOrderTransitionState))
+                                                            .build(),
+                                                    OrderSetOrderNumberActionBuilder.of()
+                                                            .orderNumber(String.format("ORD_%s", order.getId()))
                                                             .build()
                                             )
                                             .build()
@@ -71,7 +78,22 @@ public class OrderService {
             final ApiHttpResponse<Order> orderApiHttpResponse,
             final OrderState state
     ) {
-       return null;
+        Order order = orderApiHttpResponse.getBody();
+
+        return apiRoot
+               .orders()
+               .withId(order.getId())
+                .post(
+                        OrderUpdateBuilder.of()
+                                .actions(
+                                        OrderChangeOrderStateActionBuilder.of()
+                                                .orderState(state)
+                                                .build()
+                                )
+                                .version(order.getVersion())
+                                .build()
+                )
+                .execute();
     }
 
 
@@ -79,7 +101,22 @@ public class OrderService {
             final ApiHttpResponse<Order> orderApiHttpResponse,
             final State workflowState
     ) {
-        return null;
+        final Order order = orderApiHttpResponse.getBody();
+
+        return apiRoot
+                .orders()
+                .withId(order.getId())
+                .post(
+                        OrderUpdateBuilder.of()
+                                .actions(
+                                        OrderTransitionStateActionBuilder.of()
+                                                .state(s -> s.id(workflowState.getId()))
+                                                .build()
+                                )
+                                .version(order.getVersion())
+                                .build()
+                )
+                .execute();
     }
 
 }

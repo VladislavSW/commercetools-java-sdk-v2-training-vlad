@@ -166,7 +166,7 @@ public class PaymentService {
                                                                 .build()
                                                 )
                                                 .build(),
-                                        PaymentAddInterfaceInteractionActionBuilder.of()
+                                        PaymentAddInterfaceInteractionActionBuilder.of() // Uses te custom type created via postman
                                                 .fields(f -> f.addValue("payment_interaction_text", String.format("Custom payment interaction text %s", transactionType.name())))
                                                 .type(t -> t.key("paymentInteractionText"))
                                                 .build(),
