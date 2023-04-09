@@ -53,13 +53,14 @@ public class CartService {
     }
 
     public CompletableFuture<ApiHttpResponse<Cart>> createCart(
-            final Customer customer
+            final Customer customer,
+            final String currency
     ) {
         return apiRoot
                 .carts()
                 .post(
                         CartDraftBuilder.of()
-                                .currency("EUR")
+                                .currency(currency)
                                 .customerId(customer.getId())
                                 .customerEmail(customer.getEmail())
                                 .build()
@@ -69,13 +70,14 @@ public class CartService {
 
     public CompletableFuture<ApiHttpResponse<Cart>> createCart(
             final Customer customer,
-            final InventoryMode inventoryMode
+            final InventoryMode inventoryMode,
+            final String currency
     ) {
         return apiRoot
                 .carts()
                 .post(
                         CartDraftBuilder.of()
-                                .currency("EUR")
+                                .currency(currency)
                                 .customerId(customer.getId())
                                 .customerEmail(customer.getEmail())
                                 .inventoryMode(inventoryMode)
@@ -84,16 +86,21 @@ public class CartService {
                 .execute();
     }
 
-
-    public CompletableFuture<ApiHttpResponse<Cart>> createAnonymousCart() {
+    public CompletableFuture<ApiHttpResponse<Cart>> createCartInStore(
+            final String storeKey,
+            final Customer customer,
+            final InventoryMode inventoryMode,
+            final String currency
+    ) {
         return apiRoot
+                .inStore(storeKey)
                 .carts()
                 .post(
                         CartDraftBuilder.of()
-                                .currency("EUR")
-                                .deleteDaysAfterLastModification(90L)
-                                .anonymousId("an" + System.nanoTime())
-                                .country("DE")
+                                .currency(currency)
+                                .customerId(customer.getId())
+                                .customerEmail(customer.getEmail())
+                                .inventoryMode(inventoryMode)
                                 .build()
                 )
                 .execute();
@@ -104,6 +111,25 @@ public class CartService {
             final String country
     ) {
         return apiRoot
+                .carts()
+                .post(
+                        CartDraftBuilder.of()
+                                .currency(currency)
+                                .deleteDaysAfterLastModification(90L)
+                                .anonymousId("an" + System.nanoTime())
+                                .country(country)
+                                .build()
+                )
+                .execute();
+    }
+
+    public CompletableFuture<ApiHttpResponse<Cart>> createAnonymousCartInStore(
+            final String storeKey,
+            final String currency,
+            final String country
+    ) {
+        return apiRoot
+                .inStore(storeKey)
                 .carts()
                 .post(
                         CartDraftBuilder.of()

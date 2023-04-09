@@ -53,7 +53,7 @@ public class Task04c_CART_MERGING {
                 .get()
                 .getBody();
         ApiHttpResponse<Cart> cartApiHttpResponse = cartService
-                .createCart(customer, InventoryMode.TRACK_ONLY)
+                .createCart(customer, InventoryMode.TRACK_ONLY, "EUR")
                 .get();
         logger.info("cart-id: " + cartApiHttpResponse.getBody().getId());
 

@@ -42,8 +42,6 @@ dev-me-client.clientSecret=
 dev-me-client.authUrl=
 dev-me-client.apiUrl=
 dev-me-client.scopes=
-dev-me-client.customerEmail=
-dev-me-client.customerPassword=
 
 ## dev-store-me-client
 ##
@@ -53,6 +51,5 @@ dev-store-me-client.clientSecret=
 dev-store-me-client.authUrl=
 dev-store-me-client.apiUrl=
 dev-store-me-client.scopes=
-dev-store-me-client.customerEmail=
-dev-store-me-client.customerPassword=
+dev-store-me-client.storeKey=
 

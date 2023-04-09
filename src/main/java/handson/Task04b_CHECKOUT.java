@@ -78,7 +78,7 @@ public class Task04b_CHECKOUT {
                     if (e.getCause() instanceof NotFoundException) {
                         try {
                             return cartService
-                                    .createCart(customerApiHttpResponse.getBody(), InventoryMode.TRACK_ONLY)
+                                    .createCart(customerApiHttpResponse.getBody(), InventoryMode.TRACK_ONLY, "EUR")
                                     .get();
                         } catch (InterruptedException | ExecutionException ex) {
                             throw new RuntimeException(ex);
