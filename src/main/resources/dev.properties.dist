@@ -6,7 +6,6 @@ dev-admin.authUrl=
 dev-admin.apiUrl=
 dev-admin.scopes=
 
-
 ## dev-import-admin
 dev-import-admin.projectKey=
 dev-import-admin.clientId=
@@ -23,16 +22,37 @@ dev-project-sync-admin.authUrl=
 dev-project-sync-admin.apiUrl=
 dev-project-sync-admin.scopes=
 
-## dev-berlin-store-admin
+## dev-europe-store-admin
 ##
+dev-europe-store-admin.projectKey=
+dev-europe-store-admin.clientId=
+dev-europe-store-admin.clientSecret=
+dev-europe-store-admin.authUrl=
+dev-europe-store-admin.apiUrl=
+dev-europe-store-admin.scopes=
 
 ## aws-plantcheck-read
 ##
 
 ## dev-me-client
 ##
-
+dev-me-client.projectKey=
+dev-me-client.clientId=
+dev-me-client.clientSecret=
+dev-me-client.authUrl=
+dev-me-client.apiUrl=
+dev-me-client.scopes=
+dev-me-client.customerEmail=
+dev-me-client.customerPassword=
 
 ## dev-store-me-client
 ##
+dev-store-me-client.projectKey=
+dev-store-me-client.clientId=
+dev-store-me-client.clientSecret=
+dev-store-me-client.authUrl=
+dev-store-me-client.apiUrl=
+dev-store-me-client.scopes=
+dev-store-me-client.customerEmail=
+dev-store-me-client.customerPassword=
 
