@@ -37,14 +37,16 @@ public class Task02b_UPDATE_Group {
         //  GET a customer group
         //  ASSIGN the customer to the customer group
         //
-        ApiHttpResponse<Customer> customer = customerService
+        Customer customer = customerService
                 .getCustomerById("72c66007-cc5f-4424-9902-4af2eeda1426")
-                .get();
-        logger.info(String.format("Customer assigned to group: %s", customer.getBody().getCustomerGroup()));
+                .get()
+                .getBody();
+        logger.info(String.format("Customer assigned to group: %s", customer.getCustomerGroup()));
 
-        ApiHttpResponse<CustomerGroup> customerGroupKey = customerService
+        CustomerGroup customerGroupKey = customerService
                 .getCustomerGroupByKey("diamond")
-                .get();
+                .get()
+                .getBody();
 
         Customer updatedCustomer = customerService
                 .assignCustomerToCustomerGroup(customer, customerGroupKey)

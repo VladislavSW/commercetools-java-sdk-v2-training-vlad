@@ -33,10 +33,8 @@ public class ShippingMethodService {
     }
 
     public CompletableFuture<ApiHttpResponse<ShippingMethodPagedQueryResponse>> getShippingMethodsForCart(
-            final ApiHttpResponse<Cart> cartApiHttpResponse
+            final Cart cart
     ) {
-        Cart cart = cartApiHttpResponse.getBody();
-
         return apiRoot
                 .shippingMethods()
                 .matchingCart()

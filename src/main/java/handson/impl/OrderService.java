@@ -30,9 +30,8 @@ public class OrderService {
     }
 
     public CompletableFuture<ApiHttpResponse<Order>> createOrderFromCart(
-            final ApiHttpResponse<Cart> cartApiHttpResponse
+            final Cart cart
     ) {
-        final Cart cart = cartApiHttpResponse.getBody();
         final String defaultOrderTransitionState = "OrderCreated";
 
         return apiRoot
@@ -75,11 +74,9 @@ public class OrderService {
 
 
     public CompletableFuture<ApiHttpResponse<Order>> changeState(
-            final ApiHttpResponse<Order> orderApiHttpResponse,
+            final Order order,
             final OrderState state
     ) {
-        Order order = orderApiHttpResponse.getBody();
-
         return apiRoot
                .orders()
                .withId(order.getId())
@@ -98,11 +95,9 @@ public class OrderService {
 
 
     public CompletableFuture<ApiHttpResponse<Order>> changeWorkflowState(
-            final ApiHttpResponse<Order> orderApiHttpResponse,
+            final Order order,
             final State workflowState
     ) {
-        final Order order = orderApiHttpResponse.getBody();
-
         return apiRoot
                 .orders()
                 .withId(order.getId())

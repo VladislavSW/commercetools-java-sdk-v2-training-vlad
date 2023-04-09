@@ -37,13 +37,11 @@ public class PaymentService {
     }
 
     public CompletableFuture<ApiHttpResponse<Cart>> createPaymentAndAddToCart(
-            final ApiHttpResponse<Cart> cartApiHttpResponse,
+            final Cart cart,
             final String psp_Name,
             final String psp_Method,
             final String interfaceId
     ) {
-        final Cart cart = cartApiHttpResponse.getBody();
-
         return apiRoot
                 .payments()
                 .post(
@@ -86,12 +84,10 @@ public class PaymentService {
     }
 
     public CompletableFuture<ApiHttpResponse<Payment>> createPayment(
-            final ApiHttpResponse<Cart> cartApiHttpResponse,
+            final Cart cart,
             final String psp_Name,
             final String psp_Method
     ) {
-        final Cart cart = cartApiHttpResponse.getBody();
-
         return apiRoot
                 .payments()
                 .post(
@@ -113,11 +109,9 @@ public class PaymentService {
     }
 
     public CompletableFuture<ApiHttpResponse<Payment>> setInterfaceId(
-            final ApiHttpResponse<Payment> paymentApiHttpResponse,
+            final Payment payment,
             final String interfaceId
     ) {
-        Payment payment = paymentApiHttpResponse.getBody();
-
         return apiRoot
                 .payments()
                 .withId(payment.getId())
@@ -135,15 +129,12 @@ public class PaymentService {
     }
 
     public CompletableFuture<ApiHttpResponse<Payment>> addTransaction(
-            final ApiHttpResponse<Cart> cartApiHttpResponse,
-            final ApiHttpResponse<Payment> paymentApiHttpResponse,
+            final Cart cart,
+            final Payment payment,
             final String interactionId,
             final TransactionType transactionType,
             final String pspStatusCode
     ) {
-        Cart cart = cartApiHttpResponse.getBody();
-        Payment payment = paymentApiHttpResponse.getBody();
-
         return apiRoot
                 .payments()
                 .withId(payment.getId())
@@ -183,12 +174,10 @@ public class PaymentService {
     }
 
     public CompletableFuture<ApiHttpResponse<Payment>> setTransactionState(
-            final ApiHttpResponse<Payment> paymentApiHttpResponse,
+            final Payment payment,
             final Transaction transaction,
             final TransactionState toState
     ) {
-        Payment payment = paymentApiHttpResponse.getBody();
-
         return apiRoot
                 .payments()
                 .withId(payment.getId())
@@ -214,19 +203,6 @@ public class PaymentService {
     }
 
     public CompletableFuture<ApiHttpResponse<Payment>> deletePayment(
-            final ApiHttpResponse<Payment> paymentApiHttpResponse
-    ) {
-        Payment payment = paymentApiHttpResponse.getBody();
-
-        return apiRoot
-                .payments()
-                .withId(payment.getId())
-                .delete()
-                .addVersion(payment.getVersion())
-                .execute();
-    }
-
-    public CompletableFuture<ApiHttpResponse<Payment>> deletePayment(
             final Payment payment
     ) {
         return apiRoot
@@ -236,5 +212,4 @@ public class PaymentService {
                 .addVersion(payment.getVersion())
                 .execute();
     }
-
 }

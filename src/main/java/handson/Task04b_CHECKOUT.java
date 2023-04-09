@@ -78,7 +78,7 @@ public class Task04b_CHECKOUT {
                     if (e.getCause() instanceof NotFoundException) {
                         try {
                             return cartService
-                                    .createCart(customerApiHttpResponse, InventoryMode.TRACK_ONLY)
+                                    .createCart(customerApiHttpResponse.getBody(), InventoryMode.TRACK_ONLY)
                                     .get();
                         } catch (InterruptedException | ExecutionException ex) {
                             throw new RuntimeException(ex);
@@ -114,7 +114,7 @@ public class Task04b_CHECKOUT {
                     "M0E20000000E3YI"
             };
             cartApiHttpResponse = cartService
-                    .addProductToCartBySkusAndChannel(cartApiHttpResponse, channel.getBody(), skuList)
+                    .addProductToCartBySkusAndChannel(cartApiHttpResponse.getBody(), channel.getBody(), skuList)
                     .get();
 
 
@@ -129,7 +129,7 @@ public class Task04b_CHECKOUT {
             cartApiHttpResponse = cartService.addDiscountToCart(cartApiHttpResponse, discountCode.getCode()).get();
 
             // TODO: 5. Recalculate cart
-            cartApiHttpResponse = cartService.recalculate(cartApiHttpResponse).get();
+            cartApiHttpResponse = cartService.recalculate(cartApiHttpResponse.getBody()).get();
 
             // TODO: 6. Set shipping address to the cart
             BaseAddress shippingAddress = BaseAddressBuilder.of()
@@ -157,7 +157,7 @@ public class Task04b_CHECKOUT {
                     .additionalAddressInfo("Additional address info")
                     .externalId("External ID field")
                     .build();
-            cartApiHttpResponse = cartService.setShippingAddress(cartApiHttpResponse, shippingAddress).get();
+            cartApiHttpResponse = cartService.setShippingAddress(cartApiHttpResponse.getBody(), shippingAddress).get();
             logger.info("Added shipping address: {}", cartApiHttpResponse.getBody().getShippingAddress().getTitle());
 
             // TODO: 7. Set billing address to the cart
@@ -186,21 +186,21 @@ public class Task04b_CHECKOUT {
                     .additionalAddressInfo("Additional address info 2")
                     .externalId("External ID field 2")
                     .build();
-            cartApiHttpResponse = cartService.setBillingAddress(cartApiHttpResponse, billingAddress).get();
+            cartApiHttpResponse = cartService.setBillingAddress(cartApiHttpResponse.getBody(), billingAddress).get();
             logger.info("Added shipping address: {}", cartApiHttpResponse.getBody().getBillingAddress().getTitle());
 
             // TODO: 8. Set shipping method to the cart and recalculate cart
             //  get available shipping methods and use one
             ApiHttpResponse<ShippingMethodPagedQueryResponse> availableShippingMethods = shippingMethodService
-                    .getShippingMethodsForCart(cartApiHttpResponse)
+                    .getShippingMethodsForCart(cartApiHttpResponse.getBody())
                     .get();
             ShippingMethod firstAvailableShippingmethod = availableShippingMethods.getBody().getResults().get(0);
             String selectedShippingMethodId = firstAvailableShippingmethod.getId();
-            cartApiHttpResponse = cartService.setShippingMethod(cartApiHttpResponse, selectedShippingMethodId).get();
+            cartApiHttpResponse = cartService.setShippingMethod(cartApiHttpResponse.getBody(), selectedShippingMethodId).get();
 
             // TODO: 9. Create an initial payment without transactions
             ApiHttpResponse<Payment> paymentApiHttpResponse = paymentService
-                    .createPayment(cartApiHttpResponse, "MasterCard", "CreditCard")
+                    .createPayment(cartApiHttpResponse.getBody(), "MasterCard", "CreditCard")
                     .get();
             logger.info(
                     "Created payment with info: {}, {}",
@@ -209,19 +209,19 @@ public class Task04b_CHECKOUT {
             );
 
             // TODO: 10. Add payment to the cart
-            cartApiHttpResponse = cartService.addPayment(cartApiHttpResponse, paymentApiHttpResponse).get();
+            cartApiHttpResponse = cartService.addPayment(cartApiHttpResponse.getBody(), paymentApiHttpResponse.getBody()).get();
             logger.info("Payment ID in cart = {}", cartApiHttpResponse.getBody().getPaymentInfo().getPayments().get(0).getId());
 
             // TODO: 11. Convert cart to the order
             //  set default shipment/payment states, default order transition state, order number
-            ApiHttpResponse<Order> orderApiHttpResponse = orderService.createOrderFromCart(cartApiHttpResponse).get();
+            ApiHttpResponse<Order> orderApiHttpResponse = orderService.createOrderFromCart(cartApiHttpResponse.getBody()).get();
             logger.info("Order created from the cart. Order id {}", orderApiHttpResponse.getBody().getId());
 
             // TODO: 12. Create authorization payment transaction with Initial state
             String paymentInteractionId = "random-interaction-id-from-psp-1";
             paymentApiHttpResponse = paymentService.addTransaction(
-                    cartApiHttpResponse,
-                    paymentApiHttpResponse,
+                    cartApiHttpResponse.getBody(),
+                    paymentApiHttpResponse.getBody(),
                     paymentInteractionId,
                     TransactionType.AUTHORIZATION,
                     "INITIAL"
@@ -232,7 +232,7 @@ public class Task04b_CHECKOUT {
 
             // TODO: 13. Change transaction state to Pending
             paymentApiHttpResponse = paymentService.setTransactionState(
-                    paymentApiHttpResponse,
+                    paymentApiHttpResponse.getBody(),
                     paymentTransaction,
                     TransactionState.PENDING
             ).get();
@@ -240,7 +240,7 @@ public class Task04b_CHECKOUT {
 
             // TODO: 14. Change transaction state to Success
             paymentApiHttpResponse = paymentService.setTransactionState(
-                    paymentApiHttpResponse,
+                    paymentApiHttpResponse.getBody(),
                     paymentTransaction,
                     TransactionState.SUCCESS
             ).get();
@@ -249,8 +249,8 @@ public class Task04b_CHECKOUT {
             // TODO: 15. Add charge transaction
             paymentInteractionId = "random-interaction-id-from-psp-2";
             paymentApiHttpResponse = paymentService.addTransaction(
-                    cartApiHttpResponse,
-                    paymentApiHttpResponse,
+                    cartApiHttpResponse.getBody(),
+                    paymentApiHttpResponse.getBody(),
                     paymentInteractionId, 
                     TransactionType.CHARGE,
                     "INITIAL"

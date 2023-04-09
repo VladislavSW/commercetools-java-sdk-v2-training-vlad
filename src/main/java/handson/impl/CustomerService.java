@@ -127,12 +127,9 @@ public class CustomerService {
     }
 
     public CompletableFuture<ApiHttpResponse<Customer>> assignCustomerToCustomerGroup(
-            final ApiHttpResponse<Customer> customerApiHttpResponse,
-            final ApiHttpResponse<CustomerGroup> customerGroupApiHttpResponse
+            final Customer customer,
+            final CustomerGroup customerGroup
     ) {
-        final Customer customer = customerApiHttpResponse.getBody();
-        final CustomerGroup customerGroup = customerGroupApiHttpResponse.getBody();
-
         return apiRoot
                 .customers()
                 .withKey(customer.getKey())
