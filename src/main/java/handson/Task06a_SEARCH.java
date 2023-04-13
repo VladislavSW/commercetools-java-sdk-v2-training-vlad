@@ -5,7 +5,6 @@ import com.commercetools.api.models.category.Category;
 import com.commercetools.api.models.category.CategoryReference;
 import com.commercetools.api.models.category.CategoryReferenceBuilder;
 import com.commercetools.api.models.product.*;
-import com.commercetools.api.product.FacetResultsAccessor;
 import handson.impl.ApiPrefixHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class Task06a_SEARCH {
 
         Category seedCategory = client
                 .categories()
-                .withKey("plant-seeds")
+                .withKey("c4")
                 .get()
                 .execute()
                 .toCompletableFuture().get()
@@ -43,8 +42,15 @@ public class Task06a_SEARCH {
 
             // the effective filter from the search response
             // params found in the product projection search https://docs.commercetools.com/api/projects/products-search#search-productprojections
-            ProductProjectionPagedSearchResponse productProjectionPagedSearchResponse = null;
-
+            ProductProjectionPagedSearchResponse productProjectionPagedSearchResponse = client
+                    .productProjections()
+                    .search()
+                    .get()
+                    .withFilter(String.format("categories.id: subtree(\"%s\")", seedCategory.getId())) // https://docs.commercetools.com/api/projects/products-search#filter-by-category-subtrees
+                    .withFacet("categories.id")
+                    .execute()
+                    .get()
+                    .getBody();
 
         int size = productProjectionPagedSearchResponse.getResults().size();
         logger.info("No. of products: " + size);
