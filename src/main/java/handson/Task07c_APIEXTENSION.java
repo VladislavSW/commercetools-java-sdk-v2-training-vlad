@@ -26,18 +26,20 @@ public class Task07c_APIEXTENSION {
                         .extensions()
                         .post(
                                 ExtensionDraftBuilder.of()
-                                        .key("mhCustomerBlocker")
+                                        .key("customExtensionOnOrderCreateAWSLambda") // change key if required
                                         .destination(
                                                 // for GCP Cloud functions
-                                                ExtensionHttpDestinationBuilder.of()
-                                                        .url("https://europe-west3-ct-support.cloudfunctions.net/training-extensions-sample")
-                                                        .build()
-                                                //for AWS Lambda functions
-//                                                ExtensionAWSLambdaDestinationBuilder.of()
-//                                                        .arn("arn:aws:lambda:eu-central-1:923270384842:function:training-customer-check")
-//                                                        .accessKey("AKIAJLJRDGBNBIPY2ZHQ")
-//                                                        .accessSecret("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")
+                                                // change credentials
+//                                                HttpDestinationBuilder.of()
+//                                                        .url("https://europe-west3-ct-support.cloudfunctions.net/training-extensions-sample")
 //                                                        .build()
+                                                // for AWS Lambda functions
+                                                // change credentials
+                                                AWSLambdaDestinationBuilder.of()
+                                                        .arn("arn:aws:lambda:eu-central-1:923270384842:function:training-customer-check")
+                                                        .accessKey("AKIAJLJRDGBNBIPY2ZHQ")
+                                                        .accessSecret("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")
+                                                        .build()
                                         )
                                         .triggers(
                                             ExtensionTriggerBuilder.of()
