@@ -47,19 +47,28 @@ public class ClientService {
     public static String getProjectKey(
             final String prefix
     ) throws IOException {
-        return null;
+        final Properties prop = new Properties();
+        prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
+
+        return prop.getProperty(prefix + "projectKey");
     }
 
     public static String getClientId(
             final String prefix
     ) throws IOException {
-        return null;
+        final Properties prop = new Properties();
+        prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
+
+        return prop.getProperty(prefix + "clientId");
     }
 
     public static String getClientSecret(
             final String prefix
     ) throws IOException {
-        return null;
+        final Properties prop = new Properties();
+        prop.load(ClientService.class.getResourceAsStream(DEV_PROPERTIES_FILE_PATH));
+
+        return prop.getProperty(prefix + "clientSecret");
     }
 
     public static String getStoreKey(

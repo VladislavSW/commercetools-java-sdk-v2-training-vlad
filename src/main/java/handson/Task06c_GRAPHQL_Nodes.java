@@ -38,8 +38,32 @@ public class Task06c_GRAPHQL_Nodes {
                         .graphql()
                         .post(
                                 GraphQLRequestBuilder.of()
-                                        .query(
-                                                "{ products { total } }"
+                                        .query("""
+                                                    {
+                                                        products(limit: 2) {
+                                                            total
+                                                            results {
+                                                                id
+                                                                masterData {
+                                                                    current {
+                                                                        skus
+                                                                        name(locale: "en")
+                                                                        variants {
+                                                                            sku
+                                                                            prices {
+                                                                                value {
+                                                                                    type
+                                                                                    currencyCode
+                                                                                    centAmount
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                """
                                         )
                                         .build()
                         )
@@ -53,30 +77,30 @@ public class Task06c_GRAPHQL_Nodes {
         // TODO:
         //  Fetch a token, then inspect the following code
         //
-//        final AuthenticationToken authenticationToken = getTokenForClientCredentialsFlow(apiClientPrefix);
-//        logger.info("\nToken fetched : " + authenticationToken.getAccessToken());
-//
-//        Map<String, String> headers = new HashMap<>();
-//        headers.put("Authorization", "Bearer " + authenticationToken.getAccessToken());
-//        // replace in Java 9 with .headers(Map.of("Authorization", "Bearer " + token))
-//
-//        GraphQLResponseEntity<ProductCustomerQuery> responseEntity =
-//                    new GraphQLTemplate()
-//                            .query(
-//                                    GraphQLRequestEntity.Builder()
-//                                            .url(ServiceRegion.GCP_EUROPE_WEST1.getApiUrl() + "/" + projectKey + "/graphql")
-//                                            .headers(headers)
-//                                            .request(ProductCustomerQuery.class)
-//                                            .arguments(new Arguments("products",
-//                                                    new Argument("limit", 2),
-//                                                    new Argument("sort", "masterData.current.name.en desc")
-//                                            ))
-//                                            .build(),
-//                                    ProductCustomerQuery.class
-//                            );
-//        logger.info("Total products: " + responseEntity.getResponse().getProducts().getTotal());
-//        responseEntity.getResponse().getProducts().getResults().forEach(result ->
-//                    logger.info("Id: " + result.getId() + "Name: " + result.getMasterData().getCurrent().getName()));
-//        logger.info("Total customers: " + responseEntity.getResponse().getCustomers().getTotal());
+        final AuthenticationToken authenticationToken = getTokenForClientCredentialsFlow(apiClientPrefix);
+        logger.info("\nToken fetched : " + authenticationToken.getAccessToken());
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + authenticationToken.getAccessToken());
+        // replace in Java 9 with .headers(Map.of("Authorization", "Bearer " + token))
+
+        GraphQLResponseEntity<ProductCustomerQuery> responseEntity =
+                    new GraphQLTemplate()
+                            .query(
+                                    GraphQLRequestEntity.Builder()
+                                            .url(ServiceRegion.GCP_AUSTRALIA_SOUTHEAST1.getApiUrl() + projectKey + "/graphql")
+                                            .headers(headers)
+                                            .request(ProductCustomerQuery.class) // The library transforms class properties into a query
+                                            .arguments(new Arguments("products",
+                                                    new Argument<>("limit", 2),
+                                                    new Argument<>("sort", "masterData.current.name.en desc")
+                                            ))
+                                            .build(),
+                                    ProductCustomerQuery.class
+                            );
+        logger.info("Total products: " + responseEntity.getResponse().getProducts().getTotal());
+        responseEntity.getResponse().getProducts().getResults().forEach(result ->
+                    logger.info("Id: " + result.getId() + "Name: " + result.getMasterData().getCurrent().getName()));
+        logger.info("Total customers: " + responseEntity.getResponse().getCustomers().getTotal());
     }
 }

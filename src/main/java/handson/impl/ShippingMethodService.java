@@ -6,7 +6,6 @@ import com.commercetools.api.models.channel.Channel;
 import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.shipping_method.ShippingMethod;
 import com.commercetools.api.models.shipping_method.ShippingMethodPagedQueryResponse;
-import com.sun.tools.javac.util.DefinedBy;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 
 import java.util.concurrent.CompletableFuture;
