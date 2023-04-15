@@ -1,6 +1,8 @@
 package handson;
 
 import com.commercetools.api.client.ProjectApiRoot;
+import com.commercetools.api.models.common.AddressBuilder;
+import com.commercetools.api.models.customer.AuthenticationMode;
 import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.customer.CustomerBuilder;
 import handson.impl.ApiPrefixHelper;
@@ -10,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -36,7 +39,29 @@ public class Task09a_ERROR_HANDLING {
         //  Use CompletionStage
         //
         logger.info("Customer fetch: " +
-                " "
+                customerService
+                        .getCustomerByKey(customerKeyMayOrMayNotExist)
+                        .thenApply(ApiHttpResponse::getBody) // unpack response body
+                        .exceptionally(throwable -> {
+                            logger.info("Customer " + customerKeyMayOrMayNotExist + " does not exist.");
+                            // handle it
+                            return
+                                    CustomerBuilder.of()
+                                            .version(1L)
+                                            .id("some-random-id")
+                                            .email("anonymous@example.org")
+                                            .createdAt(ZonedDateTime.now())
+                                            .lastModifiedAt(ZonedDateTime.now())
+                                            .addresses(
+                                                    AddressBuilder.of()
+                                                            .country("LV")
+                                                            .build()
+                                            )
+                                            .isEmailVerified(false)
+                                            .authenticationMode(AuthenticationMode.PASSWORD)
+                                            .build();                               // e.g. return anon customer
+                        })
+                        .toCompletableFuture().get().getEmail()
         );
 
 
@@ -51,8 +76,23 @@ public class Task09a_ERROR_HANDLING {
                         .toCompletableFuture().get()
         );
 
-        // Handle now
+        if (optionalCustomer.isEmpty()) {
+            logger.info("Customer " + customerKeyMayOrMayNotExist + " does not exist.");
+            // handle it, return anon customer, etc.
+        }
 
-
+        optionalCustomer.ifPresent(customer -> {
+            logger.info("Customer: " + customerKeyMayOrMayNotExist + "exists.");
+            try {
+                customerService.createEmailVerificationToken(customer, 5)
+                        .thenComposeAsync(customerTokenApiHttpResponse -> customerService.verifyEmail(
+                                customerTokenApiHttpResponse.getBody()
+                        ))
+                        .toCompletableFuture().get();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
