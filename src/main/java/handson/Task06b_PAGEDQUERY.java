@@ -32,7 +32,7 @@ public class Task06b_PAGEDQUERY {
         // Pagination of some entities BUT only ordered via id
 
         // Pagination is down to max 10.000
-        final int PAGE_SIZE = 2;
+        final int PAGE_SIZE = 100;
         boolean lastPage = false;
 
         // Instead of using offset to get a page, ask for elements being greater than the id of the first
@@ -52,7 +52,7 @@ public class Task06b_PAGEDQUERY {
 
         String productTypeId = client
                 .productTypes()
-                .withKey("plant-seeds-product-type")
+                .withKey("main")
                 .get()
                 .execute()
                 .toCompletableFuture().get()
