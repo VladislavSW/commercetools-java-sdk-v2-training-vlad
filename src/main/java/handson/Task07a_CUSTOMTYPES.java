@@ -4,6 +4,7 @@ import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.common.LocalizedStringBuilder;
 import com.commercetools.api.models.type.*;
 import handson.impl.ApiPrefixHelper;
+import handson.impl.TypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,7 @@ public class Task07a_CUSTOMTYPES {
 
         final ProjectApiRoot client = createApiClient(apiClientPrefix);
         Logger logger = LoggerFactory.getLogger(Task07a_CUSTOMTYPES.class.getName());
+        final TypeService typeService = new TypeService(client);
 
         Map<String, String> labelsForFieldCheck = new HashMap<String, String>() {
             {
@@ -66,13 +68,27 @@ public class Task07a_CUSTOMTYPES {
 
         Map<String, String> namesForType = new HashMap<String, String>() {
             {
-                put("DE", "mh-Block-Customer");
-                put("EN", "mh-Block-Customer");
+                put("DE", "Block-Customer");
+                put("EN", "Block-Customer");
             }
         };
 
         logger.info("Custom Type info: " +
-                " "
+                typeService
+                        .createType(
+                            TypeDraftBuilder.of()
+                                    .key("custom-customer-type")
+                                    .name(
+                                            LocalizedStringBuilder.of()
+                                                    .values(namesForType)
+                                                    .build()
+                                    )
+                                    .fieldDefinitions(definitions)
+                                    .resourceTypeIds(ResourceTypeId.CUSTOMER)
+                                    .build()
+                        )
+                        .get()
+                        .getBody()
         );
 
         client.close();
