@@ -2,10 +2,7 @@ package handson;
 
 
 import com.commercetools.api.client.ProjectApiRoot;
-import com.commercetools.api.models.subscription.GoogleCloudPubSubDestinationBuilder;
-import com.commercetools.api.models.subscription.MessageSubscriptionBuilder;
-import com.commercetools.api.models.subscription.MessageSubscriptionResourceTypeId;
-import com.commercetools.api.models.subscription.SubscriptionDraftBuilder;
+import com.commercetools.api.models.subscription.*;
 import handson.impl.ApiPrefixHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,20 +30,22 @@ public class Task08a_SUBSCRIPTION {
                         .subscriptions()
                         .post(
                                 SubscriptionDraftBuilder.of()
-                                        .key("mhOrderPlacedSubscription")
+                                        .key("orderPlacedSubscription")
                                         .destination(
-                                                //for GCP Pub/Sub topic
-                                                GoogleCloudPubSubDestinationBuilder.of()
-                                                        .projectId("ct-support")
-                                                        .topic("training-subscription-sample")
-                                                        .build()
-                                                //for AWS SQS Queue
-//                                                SqsDestinationBuilder.of()
-//                                                        .queueUrl("https://sqs.eu-central-1.amazonaws.com/923270384842/training-customer_change_queue")
-//                                                        .region("eu-central-1")
-//                                                        .accessKey("AKIAJLJRDGBNBIPY2ZHQ")
-//                                                        .accessSecret("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")
+                                                // for GCP Pub/Sub topic
+                                                // change credentials
+//                                                GoogleCloudPubSubDestinationBuilder.of()
+//                                                        .projectId("ct-support")
+//                                                        .topic("training-subscription-sample")
 //                                                        .build()
+                                                // for AWS SQS Queue
+                                                // change credentials
+                                                SqsDestinationBuilder.of()
+                                                        .queueUrl("https://sqs.eu-central-1.amazonaws.com/923270384842/training-customer_change_queue")
+                                                        .region("eu-central-1")
+                                                        .accessKey("AKIAJLJRDGBNBIPY2ZHQ")
+                                                        .accessSecret("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")
+                                                        .build()
                                         )
                                         .messages(
                                                 MessageSubscriptionBuilder.of()
